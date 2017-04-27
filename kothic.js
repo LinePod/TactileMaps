@@ -3,15 +3,11 @@
  Kothic JS is a full-featured JavaScript map rendering engine using HTML5 Canvas.
  http://github.com/kothic/kothic-js
 */
-var ctx = new C2S(2048,2048);
+var ctx = new C2S(5000,5000);
 
 var Kothic = {
 
-    render: function (canvas, data, zoom, options) {
-
-        if (typeof canvas === 'string') {
-            canvas = document.getElementById(canvas);
-        }
+    render: function (data, zoom, options) {
 
         var styles = (options && options.styles) || [];
 
@@ -19,17 +15,9 @@ var Kothic = {
 
         var devicePixelRatio = Math.max(window.devicePixelRatio || 1, 2);
 
-        var width = 2048;//canvas.width,
-            height = 2048;//canvas.height;
+        var width = 2048;
+            height = 2048
 
-        if (devicePixelRatio !== 1) {
-            canvas.style.width = width + 'px';
-            canvas.style.height = height + 'px';
-            canvas.width = canvas.width * devicePixelRatio;
-            canvas.height = canvas.height * devicePixelRatio;
-        }
-
-        //var ctx = canvas.getContext('2d');
         ctx.scale(devicePixelRatio, devicePixelRatio);
 
         var granularity = data.granularity,

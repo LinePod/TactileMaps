@@ -7,20 +7,19 @@
 	<script src="conversion.js" charset="utf-8"></script>
 	<script src="canvas2svg.js"></script>
 	<script src="kothic.js"></script>
-	<script src="osmosnimki.js"></script>
+	<script src="style.js"></script>
 </head>
 <body>
-    <canvas id="map" width="2048" height="2048" style="width: 1024px; height: 1024px;"></canvas>
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width=10000 height=10000>
-    <g id="container" transform="scale(1)"></g> 
+    <g id="container" transform="scale(0.5)"></g> 
     </svg>
 
 	<script type="text/javascript">
 	convert(tile_data)
         invertYAxe(tile_data);
         MapCSS.onImagesLoad = function () {
-            Kothic.render("map",tile_data, 13, {
-                styles: ['osmosnimki']
+            Kothic.render(tile_data, 13, {
+                styles: ['style']
             });
 	    var mySvg = ctx.getSerializedSvg();
 	    var svg2 = ctx.getSvg();
@@ -31,7 +30,7 @@
 	    console.log("appending");
 	    container.appendChild(svg2);
         };
-	MapCSS.preloadSpriteImage("osmosnimki","osmosnimki.png");
+	MapCSS.preloadSpriteImage("style","style.png");
 
         function invertYAxe(data) {
             var type, coordinates, tileSize = data.granularity, i, j, k, l, feature;
