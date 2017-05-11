@@ -95,5 +95,4 @@ function convert(jsonObj) {
 	}
 	console.log("after number translation");
 	console.log(JSON.parse(JSON.stringify(jsonObj)));
-	console.log(JSON.stringify(jsonObj));
 }

@@ -1,70 +1,23 @@
-<!doctype html>
 <html>
 <head>
 	<title>TactileHomefinder</title>
-
-	<script src="maps/berlin_highways.js" charset="utf-8"></script>
+	<script src="maps/berlin.js"></script>
+	<script src="symbols.js"></script>
 	<script src="conversion.js" charset="utf-8"></script>
 	<script src="canvas2svg.js"></script>
 	<script src="kothic.js"></script>
+	<script src="render.js"></script>
 	<script src="style.js"></script>
 </head>
 <body>
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width=10000 height=10000>
-    <g id="container" transform="scale(0.5)"></g> 
-    </svg>
-
-	<script type="text/javascript">
-	convert(tile_data)
-        invertYAxe(tile_data);
-        MapCSS.onImagesLoad = function () {
-            Kothic.render(tile_data, 13, {
-                styles: ['style']
-            });
-	    var mySvg = ctx.getSerializedSvg();
-	    var svg2 = ctx.getSvg();
-	    console.log("svg");
-	    console.log(mySvg);
-	    console.log(svg2);
-	    var container = document.getElementById("container");
-	    console.log("appending");
-	    container.appendChild(svg2);
-        };
-	MapCSS.preloadSpriteImage("style","style.png");
-
-        function invertYAxe(data) {
-            var type, coordinates, tileSize = data.granularity, i, j, k, l, feature;
-            for (i = 0; i < data.features.length; i++) {
-                feature = data.features[i];
-                coordinates = feature.coordinates;
-                type = data.features[i].type;
-                if (type == 'Point') {
-                    coordinates[1] = tileSize - coordinates[1];
-                } else if (type == 'MultiPoint' || type == 'LineString') {
-                    for (j = 0; j < coordinates.length; j++) {
-                        coordinates[j][1] = tileSize - coordinates[j][1];
-                    }
-                } else if (type == 'MultiLineString' || type == 'Polygon') {
-                    for (k = 0; k < coordinates.length; k++) {
-                        for (j = 0; j < coordinates[k].length; j++) {
-                            coordinates[k][j][1] = tileSize - coordinates[k][j][1];
-                        }
-                    }
-                } else if (type == 'MultiPolygon') {
-                    for (l = 0; l < coordinates.length; l++) {
-                        for (k = 0; k < coordinates[l].length; k++) {
-                            for (j = 0; j < coordinates[l][k].length; j++) {
-                                coordinates[l][k][j][1] = tileSize - coordinates[l][k][j][1];
-                            }
-                        }
-                    }
-                }
-
-                if ('reprpoint' in feature) {
-                    feature.reprpoint[1] = tileSize - feature.reprpoint[1];
-                }
-            }
-        }
-	</script>
+	<form action="#" onsubmit="renderMap()">
+			<input type="checkbox" id="highways"> Main highways <br>
+			<input type="checkbox" id="water"> Water <br>
+			<input type="checkbox" id="trains"> Trains <br>
+			<input type="submit" value="Submit">
+	</form>
+	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width=10000 height=10000>
+	<g id="container" transform="scale(0.1)"></g> 
+	</svg>
 </body>
 </html>
