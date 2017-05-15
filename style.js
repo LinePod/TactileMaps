@@ -9,12 +9,18 @@
             s_default['color'] = 'black';
         }
 
+        if ((selector === 'area' && tags['leisure'] === 'park')){
+            s_default['fill-pattern'] = 'circlePattern';
+        }
+
 
         if ((type === 'node' && tags['railway'] === 'station')) {
-            s_default['symbol-shape'] = cross;
-            s_default['symbol-size'] = 5;
-            s_default['width'] = 3;
-            s_default['color'] = 'black';
+            s_default['icon-image'] = 'style.svg';
+            //s_default['icon-image'] = 'circle.svg';
+            //s_default['symbol-shape'] = cross;
+            //s_default['symbol-size'] = 5;
+            //s_default['width'] = 3;
+            //s_default['color'] = 'black';
         }
 
         if ((type === 'way' && tags['waterway'] === 'river') && water) {
@@ -37,8 +43,17 @@
         }
         return style;
     }
+
+    var sprite_images = {
+        'style.svg': {
+            width: 30,
+            height: 30,
+            offset: 0
+        },
+    }
+    
     var presence_tags = ['shop'], value_tags = ['color', 'amenity', 'pk', 'building ', 'marking', 'service', 'addr:housenumber', 'population', 'leisure', 'waterway', 'aeroway', 'landuse', 'barrier', 'colour', 'railway', 'oneway', 'religion', 'tourism', 'admin_level', 'transport', 'name', 'building', 'place', 'residential', 'highway', 'ele', 'living_street', 'natural', 'boundary', 'capital'];
 
-    MapCSS.loadStyle('style', restyle, [], [], presence_tags, value_tags);
+    MapCSS.loadStyle('style', restyle, sprite_images, [], presence_tags, value_tags);
     MapCSS.preloadExternalImages('style');
 })(MapCSS);

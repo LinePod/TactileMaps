@@ -33,10 +33,6 @@ function convert(jsonObj) {
 	console.log(JSON.parse(JSON.stringify(jsonObj)));
 	for(var i = 0; i < jsonObj["features"].length; ++i) {
 		var cur_feature = jsonObj.features[i];
-		//if(cur_feature.hasProperty("layer" )) {
-		//	cur_feature["layer"] = 1;
-		//}
-		//cur_feature["level"] = 1;
 		cur_feature["type"] = cur_feature["geometry"]["type"];
 		cur_feature["coordinates"] = cur_feature["geometry"]["coordinates"];
 		cur_feature["geometry"] = {}

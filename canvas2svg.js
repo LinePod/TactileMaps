@@ -265,6 +265,9 @@
         //defs tag
         this.__defs = this.__document.createElementNS("http://www.w3.org/2000/svg", "defs");
         this.__root.appendChild(this.__defs);
+        
+        // append predefined patterns to the defs section
+        appendPatterns(this); 
 
         //also add a group child. the svg element can't use the transform attribute
         this.__currentElement = this.__document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -351,11 +354,13 @@
                     //pattern
                     if(value.__ctx) {
                         //copy over defs
-                        while(value.__ctx.__defs.childNodes.length) {
-                            id = value.__ctx.__defs.childNodes[0].getAttribute("id");
+                        
+                        for(var j = 0; j < value.__ctx.__defs.childNodes.length; ++j) {
+                            id = value.__ctx.__defs.childNodes[j].getAttribute("id");
                             this.__ids[id] = id;
-                            this.__defs.appendChild(value.__ctx.__defs.childNodes[0]);
+                            this.__defs.appendChild(value.__ctx.__defs.childNodes[j]);
                         }
+                       
                     }
                     this.__currentElement.setAttribute("fill", format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 }
@@ -1137,6 +1142,13 @@
         }
     };
 
+    // applies a pattern from predefined patterns in patterns.js
+    // is not normal ctx functionality
+    ctx.prototype.applyPattern = function(patternName) {
+        var pattern = this.__document.getElementById(patternName);
+        return new CanvasPattern(pattern, this);
+    }
+
     /**
      * Generates a pattern tag
      */
@@ -1144,8 +1156,10 @@
         var pattern = this.__document.createElementNS("http://www.w3.org/2000/svg", "pattern"), id = randomString(this.__ids),
             img;
         pattern.setAttribute("id", id);
+        pattern.setAttribute("patternUnits", "userSpaceOnUse");
         pattern.setAttribute("width", image.width);
         pattern.setAttribute("height", image.height);
+
         if(image.nodeName === "CANVAS" || image.nodeName === "IMG") {
             img = this.__document.createElementNS("http://www.w3.org/2000/svg", "image");
             img.setAttribute("width", image.width);

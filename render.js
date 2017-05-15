@@ -19,7 +19,8 @@ function renderMap() {
 		console.log("appending");
 		container.appendChild(svgOut);
 	};
-	MapCSS.preloadSpriteImage("style","style.png");
+	MapCSS.preloadSpriteImage("style","style.svg");
+	return false;
 }
 
 function invertYAxe(data) {

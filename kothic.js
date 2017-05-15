@@ -111,7 +111,7 @@ var Kothic = {
             for (j = 0, len = features.length; j < len; j++) {
                 style = features[j].style;
 
-                if ('fill-color' in style || 'fill-image' in style) {
+                if ('fill-color' in style || 'fill-image' in style || 'fill-pattern' in style) {
                     if (style['fill-position'] === 'background') {
                         bgQueue.polygons = bgQueue.polygons || [];
                         bgQueue.polygons.push(features[j]);
@@ -454,6 +454,7 @@ Kothic.polygon = {
         if (nextFeature &&
                 (nextStyle['fill-color'] === style['fill-color']) &&
                 (nextStyle['fill-image'] === style['fill-image']) &&
+                (nextStyle['fill-pattern'] === style['fill-pattern']) &&
                 (nextStyle['fill-opacity'] === style['fill-opacity'])) {
             return;
         }
@@ -478,6 +479,21 @@ Kothic.polygon = {
                 ctx.fill();
             }
         }
+
+        if (style.hasOwnProperty('fill-pattern')) {
+            // second pass fills with pattern
+            patternName = style['fill-pattern'];
+            Kothic.style.setStyles(ctx, {
+                fillStyle: ctx.applyPattern(patternName),
+                globalAlpha: opacity || 1
+            });
+            if (fillFn) {
+                fillFn();
+            } else {
+                ctx.fill();
+            }
+        }
+        
 
         if (style.hasOwnProperty('fill-image')) {
             // second pass fills with texture
@@ -1330,6 +1346,7 @@ var MapCSS = {
 
     getImage: function (ref) {
         var img = MapCSS.images[ref];
+        return img
 
         if (img && img.sprite) {
             var canvas = document.createElement('canvas');
@@ -1344,6 +1361,7 @@ var MapCSS = {
         }
 
         return img;
+       
     },
 
     getTagKeys: function (tags, zoom, type, selector) {
