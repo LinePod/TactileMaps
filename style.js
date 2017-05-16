@@ -4,29 +4,33 @@
     function restyle(style, tags, zoom, type, selector) {
         var s_default = {}, s_centerline = {}, s_ticks = {}, s_label = {};
 
-        if ((type === 'way' && tags['highway'] === 'primary') && highways) {
-            s_default['width'] = 3;
+        if ((selector === 'line' && tags['highway'] === 'primary')) {
+            s_default['width'] = 2;
             s_default['color'] = 'black';
         }
 
-        if ((selector === 'area' && tags['leisure'] === 'park')){
-            s_default['fill-pattern'] = 'circlePattern';
+        if ((selector === 'area' && tags['leisure'] === 'park' && tags['name'] === "Lietzensee-Park")){
+            s_default['fill-pattern'] = 'dotPattern';
         }
 
-
-        if ((type === 'node' && tags['railway'] === 'station')) {
-            s_default['icon-image'] = 'style.svg';
-            //s_default['icon-image'] = 'circle.svg';
-            //s_default['symbol-shape'] = cross;
-            //s_default['symbol-size'] = 5;
-            //s_default['width'] = 3;
-            //s_default['color'] = 'black';
+        if ((selector === 'node' && tags['railway'] === 'station')) {
+            s_default['symbol-shape'] = plateau;
+            s_default['symbol-size'] = 30;
         }
 
-        if ((type === 'way' && tags['waterway'] === 'river') && water) {
+        if ((selector === 'node' && tags['station'] === 'light_rail')) {
+            s_default['symbol-shape'] = plateau;
+            s_default['symbol-size'] = 30;
+        }
+
+        if ((selector === 'line' && tags['railway'] === 'light_rail')) {
             s_default['color'] = 'black';
-            s_default['width'] = 3;
-            s_default['dashes'] = [3,1];
+            s_default['dashes'] = [20,20];
+            s_default['width'] = 2;
+        }
+
+        if ((selector === 'area' && tags['water'] === 'lake')) {
+            s_default['fill-pattern'] = 'horzLinePattern';
         }
 
         if (Object.keys(s_default).length) {
@@ -52,7 +56,9 @@
         },
     }
     
-    var presence_tags = ['shop'], value_tags = ['color', 'amenity', 'pk', 'building ', 'marking', 'service', 'addr:housenumber', 'population', 'leisure', 'waterway', 'aeroway', 'landuse', 'barrier', 'colour', 'railway', 'oneway', 'religion', 'tourism', 'admin_level', 'transport', 'name', 'building', 'place', 'residential', 'highway', 'ele', 'living_street', 'natural', 'boundary', 'capital'];
+    var presence_tags = ['shop'];
+    var value_tags = ['station','railway','water','leisure','highway','name'];
+    //var value_tags = ['color', 'amenity', 'pk', 'building ', 'marking', 'service', 'addr:housenumber', 'population', 'leisure', 'waterway', 'aeroway', 'landuse', 'barrier', 'colour', 'railway', 'oneway', 'religion', 'tourism', 'admin_level', 'transport', 'name', 'building', 'place', 'residential', 'highway', 'ele', 'living_street', 'natural', 'boundary', 'capital'];
 
     MapCSS.loadStyle('style', restyle, sprite_images, [], presence_tags, value_tags);
     MapCSS.preloadExternalImages('style');

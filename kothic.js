@@ -3,6 +3,11 @@
  Kothic JS is a full-featured JavaScript map rendering engine using HTML5 Canvas.
  http://github.com/kothic/kothic-js
 */
+
+/* 
+    +++
+    create canvas2svg mock instance of context so we can render to svg instead of canvas
+*/
 var ctx = new C2S(5000,5000);
 
 var Kothic = {
@@ -168,6 +173,13 @@ var Kothic = {
         for (i = 0; i < layerIds.length; i++) {
             var features = layers[layerIds[i]],
                 featuresLen = features.length;
+
+            /*  +++
+                Added support for d3-like symbols. Attribute at 'symbol-shape' must be
+                object that offers draw(ctx, size) method.
+                This was done so that nodes like train-stations etc can be represented
+                with predefined glyphs from symbols.js
+            */
 
             // render symbols without text
             for (j = featuresLen - 1; j >= 0; j--) {
@@ -446,6 +458,13 @@ Kothic.polygon = {
 
         if (!this.pathOpened) {
             this.pathOpened = true;
+
+            /*  +++ 
+                save ctx so it can later be restored because 
+                fill pattern will corrupt context
+            */
+            ctx.save();
+
             ctx.beginPath();
         }
 
@@ -480,9 +499,15 @@ Kothic.polygon = {
             }
         }
 
+        /* 
+            +++
+            fill-pattern is not in MapCSS specification but necessary because we
+            can only render vector based formats and fill-image with svg proved to
+            be more complicated than additional fill-pattern attribute    
+        */
         if (style.hasOwnProperty('fill-pattern')) {
-            // second pass fills with pattern
             patternName = style['fill-pattern'];
+            
             Kothic.style.setStyles(ctx, {
                 fillStyle: ctx.applyPattern(patternName),
                 globalAlpha: opacity || 1
@@ -492,6 +517,8 @@ Kothic.polygon = {
             } else {
                 ctx.fill();
             }
+            // correlates to ctx.save() instruction above
+            ctx.restore();
         }
         
 
@@ -923,6 +950,10 @@ Kothic.texticons = {
         }
     }
 };
+
+/*  +++
+    Created symbols class for glyph rendering, see caller for more information
+*/ 
 
 Kothic.symbols = {
 

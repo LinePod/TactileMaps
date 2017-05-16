@@ -1142,8 +1142,10 @@
         }
     };
 
-    // applies a pattern from predefined patterns in patterns.js
-    // is not normal ctx functionality
+    /*  +++
+        applies a pattern from predefined patterns in patterns.js
+        is not normal ctx functionality
+    */
     ctx.prototype.applyPattern = function(patternName) {
         var pattern = this.__document.getElementById(patternName);
         return new CanvasPattern(pattern, this);
