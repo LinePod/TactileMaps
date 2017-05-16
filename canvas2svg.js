@@ -259,14 +259,22 @@
         this.__root.setAttribute("width", this.width);
         this.__root.setAttribute("height", this.height);
 
+        /*  +++
+            scale to fit on a4 
+        */
+        this.__root.setAttribute("viewBox", "0 0 " + this.width + " " + this.height);
+        this.__root.setAttribute("preserveAspectRatio","xMidYMid");
+
         //make sure we don't generate the same ids in defs
         this.__ids = {};
 
         //defs tag
         this.__defs = this.__document.createElementNS("http://www.w3.org/2000/svg", "defs");
         this.__root.appendChild(this.__defs);
-        
-        // append predefined patterns to the defs section
+
+        /*  +++ 
+            append predefined patterns to the defs section
+        */
         appendPatterns(this); 
 
         //also add a group child. the svg element can't use the transform attribute
