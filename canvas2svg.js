@@ -575,6 +575,7 @@
      * Helper function to add path command
      * @private
      */
+
     ctx.prototype.__addPathCommand = function(command){
         this.__currentDefaultPath += " ";
         this.__currentDefaultPath += command;

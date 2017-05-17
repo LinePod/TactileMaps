@@ -235,6 +235,7 @@ Kothic.line = {
         if (!this.pathOpened) {
             this.pathOpened = true;
             ctx.beginPath();
+            attachSpeechToFeature(ctx, feature);
         }
 
         Kothic.path(ctx, feature, style["casing-dashes"] || style.dashes, false, ws, hs, granularity);
@@ -267,6 +268,7 @@ Kothic.line = {
         if (!this.pathOpened) {
             this.pathOpened = true;
             ctx.beginPath();
+            attachSpeechToFeature(ctx, feature);
         }
 
         Kothic.path(ctx, feature, style.dashes, false, ws, hs, granularity);
@@ -466,6 +468,7 @@ Kothic.polygon = {
             ctx.save();
 
             ctx.beginPath();
+            attachSpeechToFeature(ctx, feature);
         }
 
         Kothic.path(ctx, feature, false, true, ws, hs, granularity);
@@ -1044,7 +1047,7 @@ Kothic.symbols = {
             ctx.save();
             ctx.translate(point[0], point[1]);
             ctx.beginPath()
-            //ctx.setLineDash([])
+            attachSpeechToFeature(ctx, feature);
             symbol.draw(ctx, size)
             ctx.stroke()
             ctx.restore()
