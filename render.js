@@ -3,10 +3,43 @@ var water
 var trains
 
 function renderMap() {
-	highways = document.getElementById("highways").checked
-	water = document.getElementById("water").checked
-	trains = document.getElementById("trains").checked
-	convert(tile_data)
+
+	bbox = [52.502874,13.280883,52.511624,13.296375];
+	/*features = [["way","railway","light_rail"],
+				["node","station","light_rail"],
+				["way","leisure","park"],
+				["way","water","lake"],
+				["way","water","river"],
+				["way","highway","primary"]]
+	*/
+
+   	features = []
+
+	if(document.getElementById("mainhighways").checked) {
+		features.push(["way","highway","primary"]);
+	}
+	if(document.getElementById("secondaryhighways").checked) {
+		features.push(["way","highway","secondary"]);
+	}
+	if(document.getElementById("water").checked) {
+		features.push(["way","water","lake"]);
+		features.push(["way","water","river"]);
+	}
+	if(document.getElementById("parks").checked) {
+		features.push(["way","leisure","park"]);
+	}
+	if(document.getElementById("trains").checked) {
+		features.push(["way","railway","light_rail"]);
+		features.push(["node","station","light_rail"]);
+	}
+
+	var address = document.getElementById("area").value;
+	console.log("Address");
+	console.log(address);
+	var bbox = getBoundingBoxForCity(address);
+	tile_data = getOSMData(features, bbox);
+
+	convert(tile_data);
 	invertYAxe(tile_data);
 	MapCSS.onImagesLoad = function () {
 		Kothic.render(tile_data, 13, {

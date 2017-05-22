@@ -9,7 +9,17 @@
             s_default['color'] = 'black';
         }
 
-        if ((selector === 'area' && tags['leisure'] === 'park' && tags['name'] === "Lietzensee-Park")){
+        if ((selector === 'area' && tags['leisure'] === 'park' && tags['landuse'] === 'nature_reserve')){
+            s_default['fill-pattern'] = 'dotPattern';
+        }
+
+        if (((selector === 'area' && tags['landuse'] === 'grass')) 
+         || ((selector === 'area' && tags['natural'] === 'grass')) 
+         || ((selector === 'area' && tags['natural'] === 'meadow')) 
+         || ((selector === 'area' && tags['landuse'] === 'meadow')) 
+         || ((selector === 'area' && tags['landuse'] === 'recreation_ground'))
+         || ((selector === 'area' && tags['landuse'] === 'farmland'))) {
+
             s_default['fill-pattern'] = 'dotPattern';
         }
 
@@ -27,9 +37,18 @@
             s_default['color'] = 'black';
             s_default['dashes'] = [20,20];
             s_default['width'] = 2;
+            tags['name'] = 'railway';
         }
 
-        if ((selector === 'area' && tags['water'] === 'lake')) {
+        if ((selector === 'area' && (tags['water'] === 'lake' || tags['water'] === 'river' || tags['natural'] === 'water'))) {
+            s_default['fill-pattern'] = 'horzLinePattern';
+        }
+
+        if ((selector === 'area' && (tags['waterway'] === 'lake' || tags['waterway'] === 'river' || tags['natural'] === 'water'))) {
+            s_default['fill-pattern'] = 'horzLinePattern';
+        }
+
+        if (type === 'way' && (tags['waterway'] === 'river' || tags['waterway'] === 'stream' || tags['waterway'] === 'canal')) {
             s_default['fill-pattern'] = 'horzLinePattern';
         }
 
