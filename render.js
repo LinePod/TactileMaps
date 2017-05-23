@@ -21,12 +21,24 @@ function renderMap() {
 	if(document.getElementById("secondaryhighways").checked) {
 		features.push(["way","highway","secondary"]);
 	}
+	if(document.getElementById("residentialhighways").checked) {
+		features.push(["way","highway","residential"]);
+	}
 	if(document.getElementById("water").checked) {
 		features.push(["way","water","lake"]);
+		features.push(["way","natural","water"]);
 		features.push(["way","water","river"]);
+		features.push(["relation","natural","water"]);
 	}
 	if(document.getElementById("parks").checked) {
 		features.push(["way","leisure","park"]);
+		features.push(["way","landuse","grass"]);
+	}
+
+	if(document.getElementById("forest").checked) {
+		features.push(["way","natural","wood"]);
+		features.push(["relation","landuse","forest"]);
+		features.push(["way","landuse","forest"]);
 	}
 	if(document.getElementById("trains").checked) {
 		features.push(["way","railway","light_rail"]);

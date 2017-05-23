@@ -1,31 +1,22 @@
+function traverseCoords(arr) {
+	if(typeof(arr[0][0]) == 'number') {
+		return arr
+	}
+	var ret = [];
+
+	for(var i = 0; i < arr.length; ++i) {
+		var res = traverseCoords(arr[i])
+		for(var j = 0; j < res.length; ++j) {
+			ret.push(res[j]);
+		}
+	}
+	return ret;
+
+}
+
 function getAllCoords(feature) {
 	var coords = feature["coordinates"]
-	switch(feature["type"]) {
-		case "Point":
-			console.log("point")
-			return [coords]
-			break;
-		case "LineString":
-			console.log("line")
-			return coords
-			break;
-		case "Polygon":
-			console.log("poly")
-			var tmp = []
-			for(let ia = 0; ia<coords.length; ++ia) {
-				//console.log(coords[ia])
-				for(let ja = 0; ja<coords[ia].length; ++ja) {
-					//console.log(coords[ia][ja])
-					tmp.push(coords[ia][ja])
-				}
-			}
-			//console.log(tmp)
-			return tmp
-			break;
-		default:
-			console.log("invalid feature")
-			console.log(feature)
-	}
+	return traverseCoords([coords]);
 }
 
 
@@ -65,17 +56,6 @@ function convert(jsonObj) {
 			}
 		}
 	}
-	console.log("minX")
-	console.log(minX)
-
-	console.log("minY")
-	console.log(minY)
-
-	console.log("maxX")
-	console.log(maxX)
-
-	console.log("maxY")
-	console.log(maxY)
 
 	jsonObj["bbox"] = [minX, minY, maxX, maxY];
     jsonObj["granularity"] =10000;

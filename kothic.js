@@ -1045,6 +1045,8 @@ Kothic.symbols = {
 
         if (renderSymbol) {
             ctx.save();
+            // LineDash settings of previous path might still be active 
+            ctx.setLineDash([]);
             ctx.translate(point[0], point[1]);
             ctx.beginPath()
             attachSpeechToFeature(ctx, feature);
