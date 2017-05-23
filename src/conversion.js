@@ -11,7 +11,6 @@ function traverseCoords(arr) {
 		}
 	}
 	return ret;
-
 }
 
 function getAllCoords(feature) {
@@ -19,8 +18,10 @@ function getAllCoords(feature) {
 	return traverseCoords([coords]);
 }
 
-
 function convert(jsonObj) {
+	/**
+	 * Converts osm-json data to tile-format as needed by kothic.js
+	 */
 	console.log(JSON.parse(JSON.stringify(jsonObj)));
 	for(var i = 0; i < jsonObj["features"].length; ++i) {
 		var cur_feature = jsonObj.features[i];

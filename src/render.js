@@ -1,17 +1,6 @@
-var highways
-var water
-var trains
-
 function renderMap() {
 
 	bbox = [52.502874,13.280883,52.511624,13.296375];
-	/*features = [["way","railway","light_rail"],
-				["node","station","light_rail"],
-				["way","leisure","park"],
-				["way","water","lake"],
-				["way","water","river"],
-				["way","highway","primary"]]
-	*/
 
    	features = []
 
@@ -51,20 +40,22 @@ function renderMap() {
 	var bbox = getBoundingBoxForCity(address);
 	tile_data = getOSMData(features, bbox);
 
+	// convert osm-json to tile-format
 	convert(tile_data);
 	invertYAxe(tile_data);
-	MapCSS.onImagesLoad = function () {
-		Kothic.render(tile_data, 13, {
-			styles: ['style']
-		});
-		var svgOut = ctx.getSvg();
-		console.log("svg");
-		console.log(svgOut);
-		var container = document.getElementById("container");
-		console.log("appending");
-		container.appendChild(svgOut);
-	};
-	MapCSS.preloadSpriteImage("style","style.svg");
+
+	Kothic.render(tile_data, 13, {
+		styles: ['style']
+	});
+
+	var svgOut = ctx.getSvg();
+	console.log("svg");
+	console.log(svgOut);
+	var container = document.getElementById("container");
+	console.log("appending");
+	container.appendChild(svgOut);
+
+	//necessary for form submit
 	return false;
 }
 
