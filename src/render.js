@@ -1,6 +1,12 @@
 function renderMap() {
+	
+	//Lietzensee 
+	//var bbox = [52.502874,13.280883,52.511624,13.296375];
+	var bbox
+	
+	//Fuerstenfeldbrück
+	var bbox = [48.16624,11.238501,48.1731835,11.2526178]
 
-	bbox = [52.502874,13.280883,52.511624,13.296375];
 
    	features = []
 
@@ -12,12 +18,16 @@ function renderMap() {
 	}
 	if(document.getElementById("residentialhighways").checked) {
 		features.push(["way","highway","residential"]);
+		features.push(["way","highway","tertiary"]);
+		features.push(["way","highway","unclassified"]);
 	}
 	if(document.getElementById("water").checked) {
 		features.push(["way","water","lake"]);
 		features.push(["way","natural","water"]);
 		features.push(["way","water","river"]);
+		features.push(["way","waterway"]);
 		features.push(["relation","natural","water"]);
+		features.push(["relation","waterway"]);
 	}
 	if(document.getElementById("parks").checked) {
 		features.push(["way","leisure","park"]);
@@ -30,15 +40,40 @@ function renderMap() {
 		features.push(["way","landuse","forest"]);
 	}
 	if(document.getElementById("trains").checked) {
-		features.push(["way","railway","light_rail"]);
-		features.push(["node","station","light_rail"]);
+		features.push(["way","railway"]) //,"light_rail"]);
+		features.push(["node","station"]) //,"light_rail"]);
+	}
+
+	if(document.getElementById("busstations").checked) {
+		features.push(["node","highway","bus_stop"]);
+		features.push(["node","bus","yes"]);
+	}
+
+	if(document.getElementById("buildings").checked) {
+		features.push(['way',"building"])
 	}
 
 	var address = document.getElementById("area").value;
 	console.log("Address");
 	console.log(address);
-	var bbox = getBoundingBoxForCity(address);
+
+	if(address != "") {
+		var bbox = getBoundingBoxForCity(address);
+	}
+
 	tile_data = getOSMData(features, bbox);
+	console.log("tile-data:");
+	console.log(JSON.parse(JSON.stringify(tile_data)));
+	console.log("bbox:");
+	console.log(bbox);
+	var trans_bbox = [bbox[1],bbox[0],bbox[3],bbox[2]]
+	console.log("trans bbox: ")
+	console.log(trans_bbox)
+	
+	tile_data["features"] = clipFeatures(tile_data["features"], trans_bbox)
+
+	console.log("After slice:");
+	console.log(JSON.parse(JSON.stringify(tile_data)));
 
 	// convert osm-json to tile-format
 	convert(tile_data);

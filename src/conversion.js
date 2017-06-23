@@ -40,6 +40,8 @@ function convert(jsonObj) {
 
 	for(var i = 0; i < jsonObj["features"].length; ++i) {
 		var feature = jsonObj.features[i];
+		console.log("feature:")
+		console.log(JSON.parse(JSON.stringify(feature)));
 		var coords = getAllCoords(feature)
 		for(var j = 0; j < coords.length; ++j) {
 			var xyCoords = coords[j]
@@ -59,7 +61,7 @@ function convert(jsonObj) {
 	}
 
 	jsonObj["bbox"] = [minX, minY, maxX, maxY];
-    jsonObj["granularity"] =10000;
+    jsonObj["granularity"] = 10000;
 
 	for(var i = 0; i < jsonObj["features"].length; ++i) {
 		var feature = jsonObj.features[i];

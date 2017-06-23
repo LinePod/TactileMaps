@@ -4,17 +4,7 @@
     function restyle(style, tags, zoom, type, selector) {
         var s_default = {}, s_centerline = {}, s_ticks = {}, s_label = {};
 
-        if ((selector === 'line' && tags['highway'] === 'primary')) {
-            s_default['width'] = 2;
-            s_default['color'] = 'black';
-        }
-
-        if ((selector === 'line' && tags['highway'] === 'secondary')) {
-            s_default['width'] = 2;
-            s_default['color'] = 'black';
-        }
-
-        if ((selector === 'line' && tags['highway'] === 'residential')) {
+        if ((selector === 'line' && tags['highway'])) {
             s_default['width'] = 2;
             s_default['color'] = 'black';
         }
@@ -24,10 +14,26 @@
          || ((selector === 'area' && tags['natural'] === 'meadow')) 
          || ((selector === 'area' && tags['leisure'] === 'park')) 
          || ((selector === 'area' && tags['landuse'] === 'meadow')) 
+
+         || ((selector === 'area' && tags['landuse'] === 'forest')) 
+         || ((selector === 'area' && tags['natural'] === 'wood')) 
+         || ((selector === 'line' && tags['landuse'] === 'forest')) 
+
          || ((selector === 'area' && tags['landuse'] === 'recreation_ground'))
          || ((selector === 'area' && tags['landuse'] === 'farmland'))) {
 
             s_default['fill-pattern'] = 'dotPattern';
+        }
+
+        if ((selector === 'node' && tags['railway'] === 'station')) {
+            s_default['symbol-shape'] = plateau;
+            s_default['symbol-size'] = 30;
+        }
+
+        if (((selector === 'node' && tags['highway'] === 'bus_stop'))
+          ||((selector === 'node' && tags['bus'] === 'yes'))) {
+            s_default['symbol-shape'] = plateau;
+            s_default['symbol-size'] = 30;
         }
 
         if ((selector === 'node' && tags['railway'] === 'station')) {
@@ -40,22 +46,19 @@
             s_default['symbol-size'] = 30;
         }
 
-        if ((selector === 'line' && tags['railway'] === 'light_rail')) {
+        if ((selector === 'line' && tags['railway'])) {
             s_default['color'] = 'black';
             s_default['dashes'] = [20,20];
             s_default['width'] = 2;
         }
 
-        if ((selector === 'area' && (tags['water'] === 'lake' || tags['water'] === 'river' || tags['natural'] === 'water'))) {
+        if (selector === 'area' && (tags['water'] || tags['waterway'] || tags['natural'] === 'water')) {
             s_default['fill-pattern'] = 'horzLinePattern';
         }
 
-        if ((selector === 'area' && (tags['waterway'] === 'lake' || tags['waterway'] === 'river' || tags['natural'] === 'water'))) {
-            s_default['fill-pattern'] = 'horzLinePattern';
-        }
-
-        if (type === 'way' && (tags['waterway'] === 'river' || tags['waterway'] === 'stream' || tags['waterway'] === 'canal')) {
-            s_default['fill-pattern'] = 'horzLinePattern';
+        if (type === 'way' && (tags['waterway'] || tags['water'] || tags['natural'] === 'water')) {
+            s_default['color'] = 'blue';
+            s_default['width'] = 2;
         }
 
         if (Object.keys(s_default).length) {

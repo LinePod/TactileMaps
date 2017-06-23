@@ -47,12 +47,17 @@ function getOSMData(features, bbox)
 	url += "data=[out:xml];("
 	for(var i=0; i<features.length; ++i) {
 		var f = features[i];
-		url += f[0] + '["' + f[1] + '"]' + '["' + f[1] + '"~"' + f[2] + '"](' 
-		    + bbox[0] + ','+ bbox[1] + ','+ bbox[2] + ','+ bbox[3] + ');'
+		if(f.length == 3) {
+			url += f[0] + '["' + f[1] + '"]' + '["' + f[1] + '"~"' + f[2] + '"](' 
+				+ bbox[0] + ','+ bbox[1] + ','+ bbox[2] + ','+ bbox[3] + ');'
+		}
+		else {
+			url += f[0] + '["' + f[1] + '"](' 
+				+ bbox[0] + ','+ bbox[1] + ','+ bbox[2] + ','+ bbox[3] + ');'
+		}
 	}
 
 	url += ');out;>;out skel qt;'
-	//url = API_ENDPOINT + 'data=[out:json][timeout:25];(way["railway"]["railway"~"light_rail"](52.502874,13.280883,52.511624,13.296375);node["station"]["station"~"light_rail"](52.502874,13.280883,52.511624,13.296375);way["leisure"]["leisure"~"park"](52.502874,13.280883,52.511624,13.296375);way["water"]["water"~"lake"](52.502874,13.280883,52.511624,13.296375);way["highway"]["highway"~"primary"](52.502874,13.280883,52.511624,13.296375););out;>;out skel qt;'
 
 	console.log("url:");
 	console.log(url);

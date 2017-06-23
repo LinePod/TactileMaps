@@ -1,0 +1,7 @@
+*.log
+node_modules
+coverage
+.DS_Store
+coverage
+.nyc_output
+yarn.lock
