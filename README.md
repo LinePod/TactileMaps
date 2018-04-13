@@ -1,4 +1,4 @@
-# TactileHomefinder
+# TactileMaps
 
 Openstreetmaps for the blind to be printed on swellpaper.
 
