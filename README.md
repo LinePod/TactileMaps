@@ -1,6 +1,8 @@
 # TactileMaps
 
-Openstreetmaps for the blind to be printed on swellpaper.
+Generate tactile versions of Openstreetmaps to be printed on swellpaper.
+Application is build for [linepod](https://hpi.de/baudisch/projects/linepod.html), a research sensemaking platform for blind users.
+
 
 ## Used Frameworks and APIs
 - [google geocode api](https://developers.google.com/maps/documentation/geocoding/intro) for retrieving bounding box of address
